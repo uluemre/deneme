@@ -1,0 +1,11 @@
+/* styles/globals.css veya ilgili component css */
+.page-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    /* sayfa içeriği boşsa bile kalan alanı kaplar */
+}
