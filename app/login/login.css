@@ -67,8 +67,12 @@ body {
     font-size: 17px;
     padding-left: 20px;
     color: #ffffff;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.3px;
 
+}
+
+img {
+    margin-bottom: 20px;
 }
 
 .input-style:hover {

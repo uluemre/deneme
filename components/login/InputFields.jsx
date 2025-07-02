@@ -6,7 +6,11 @@ function InputField() {
     return (
         <div className="input-field">
 
-            <input className='input-style' type="text" placeholder="username" />
+            <h1>Welcome Login Panel</h1>
+
+            <img src="\images\Name.png" width={120} height={120} alt="sads" />
+
+            <input className='input-style' type="text" placeholder="username or e-mail" />
 
             <input className='input-style' type="password" placeholder="password" />
 
