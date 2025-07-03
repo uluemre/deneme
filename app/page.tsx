@@ -78,7 +78,7 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title>MağazaAdı - En İyi Alışveriş Deneyimi</title>
+        <title>UluTek - En İyi Alışveriş Deneyimi</title>
         <meta name="description" content="Binlerce kaliteli ürünü uygun fiyatlarla bulabileceğiniz online alışveriş platformu" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

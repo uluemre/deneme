@@ -1,16 +1,18 @@
 import React from 'react'
+// import styles from './login.module.css';
 import './login.css'
+
 import InputField from '../../components/login/InputFields'
 
 
 function Login() {
     return (
-        <form className='login'>
 
-            <InputField />
+        <InputField />
 
-        </form>
     );
 }
 
 export default Login
+
+

@@ -6,6 +6,12 @@ if (!MONGODB_URI) {
     throw new Error('MONGODB_URI environment variable is missing.');
 }
 
+// Extend the global type to include mongoose
+declare global {
+    // eslint-disable-next-line no-var
+    var mongoose: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } | undefined;
+}
+
 let cached = global.mongoose || { conn: null, promise: null };
 
 export async function connectDB() {

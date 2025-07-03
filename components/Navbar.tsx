@@ -130,15 +130,15 @@ const Navbar = () => {
                         </div>
 
                         {/* Favoriler */}
-                        <Link href="/favoriler" className="hidden md:block p-2 text-cyan-700 hover:text-pink-700 transition">
+                        <Link href="/favorites" className="hidden md:block p-2 text-cyan-700 hover:text-pink-700 transition">
                             <FiHeart size={20} />
                         </Link>
 
                         {/* Sepet */}
-                        <Link href="/sepet" className="flex p-2 text-green-600 hover:text-green-800 transition relative">
+                        <Link href="/cart" className="flex p-2 text-green-600 hover:text-green-800 transition relative">
                             <FiShoppingCart size={20} />
                             <span className="absolute -top-1 -right-1 bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
-                                3
+                                ?
                             </span>
                         </Link>
 
