@@ -8,11 +8,11 @@ import InputField from '../../components/login/InputFields'
 function Login() {
     return (
 
-        <InputField />
 
+        <div>
+            <InputField />
+        </div>
     );
 }
 
 export default Login
-
-
