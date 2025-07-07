@@ -9,9 +9,10 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const accountDropdownRef = useRef<HTMLDivElement>(null);
 
-    // Navbar scroll efekti
+    // Sayfa scroll etkisi
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 20) {
@@ -23,6 +24,20 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // localStorage'dan token kontrolü => login durumu güncelle
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    // Çıkış yapma fonksiyonu
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        setIsAccountDropdownOpen(false);
+        window.location.href = '/'; // Anasayfaya yönlendir
+    };
 
     // Mobil menüyü kapatma
     const closeMobileMenu = () => setIsOpen(false);
@@ -95,47 +110,84 @@ const Navbar = () => {
                                     onMouseLeave={() => setIsAccountDropdownOpen(false)}
                                 >
                                     <div className="p-4 border-b border-gray-100 bg-gray-50">
-                                        <p className="text-sm text-gray-500">Hesabınıza giriş yapın</p>
+                                        <p className="text-sm text-gray-500 text-lg">
+                                            {isLoggedIn ? 'Hesabınız' : 'Hesabınıza giriş yapın'}
+                                        </p>
                                     </div>
 
-                                    <Link
-                                        href="/login"
-                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-all duration-200"
-                                        onClick={closeAccountDropdown}
-                                    >
-                                        <FiLogIn className="mr-3 text-indigo-600" />
-                                        <span>Giriş Yap</span>
-                                    </Link>
+                                    {/* Giriş yapılmamışsa */}
+                                    {!isLoggedIn && (
+                                        <>
+                                            <Link
+                                                href="/login"
+                                                className="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-all duration-200"
+                                                onClick={closeAccountDropdown}
+                                            >
+                                                <FiLogIn className="mr-3 text-indigo-600" />
+                                                <span>Giriş Yap</span>
+                                            </Link>
 
-                                    <Link
-                                        href="/register"
-                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-all duration-200"
-                                        onClick={closeAccountDropdown}
-                                    >
-                                        <FiUserPlus className="mr-3 text-indigo-600" />
-                                        <span>Kayıt Ol</span>
-                                    </Link>
+                                            <Link
+                                                href="/register"
+                                                className="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-all duration-200"
+                                                onClick={closeAccountDropdown}
+                                            >
+                                                <FiUserPlus className="mr-3 text-indigo-600" />
+                                                <span>Kayıt Ol</span>
+                                            </Link>
 
-                                    <div className="p-3 border-t border-gray-100 bg-gray-50 text-center">
-                                        <Link
-                                            href="/sifremi-unuttum"
-                                            className="text-m text-indigo-600 hover:text-indigo-800"
-                                            onClick={closeAccountDropdown}
+                                            <div className="p-3 border-t border-gray-100 bg-gray-50 text-center">
+                                                <Link
+                                                    href="/sifremi-unuttum"
+                                                    className="text-m text-indigo-600 hover:text-indigo-800"
+                                                    onClick={closeAccountDropdown}
+                                                >
+                                                    Şifremi Unuttum
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {/* Giriş yapıldıysa */}
+                                    {isLoggedIn && (
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full text-left px-4 py-3 text-white bg-red-600 hover:bg-red-700 transition-all duration-200"
                                         >
-                                            Şifremi Unuttum
-                                        </Link>
-                                    </div>
+                                            Çıkış Yap
+                                        </button>
+                                    )}
                                 </div>
                             )}
                         </div>
 
                         {/* Favoriler */}
-                        <Link href="/favorites" className="hidden md:block p-2 text-cyan-700 hover:text-pink-700 transition">
+                        <Link
+                            href={isLoggedIn ? "/favorites" : "#"}
+                            className={`hidden md:block p-2 text-cyan-700 hover:text-pink-700 transition ${!isLoggedIn ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''
+                                }`}
+                            onClick={e => {
+                                if (!isLoggedIn) {
+                                    e.preventDefault();
+                                    alert("Lütfen önce giriş yapınız!");
+                                }
+                            }}
+                        >
                             <FiHeart size={20} />
                         </Link>
 
                         {/* Sepet */}
-                        <Link href="/cart" className="flex p-2 text-green-600 hover:text-green-800 transition relative">
+                        <Link
+                            href={isLoggedIn ? "/cart" : "#"}
+                            className={`flex p-2 text-green-600 hover:text-green-800 transition relative ${!isLoggedIn ? 'pointer-events-none opacity-50 cursor-not-allowed' : ''
+                                }`}
+                            onClick={e => {
+                                if (!isLoggedIn) {
+                                    e.preventDefault();
+                                    alert("Lütfen önce giriş yapınız!");
+                                }
+                            }}
+                        >
                             <FiShoppingCart size={20} />
                             <span className="absolute -top-1 -right-1 bg-green-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
                                 ?

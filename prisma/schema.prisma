@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username   String   @unique
+  email      String   @unique
+  password   String
+  emailCode  String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  orders    Order[]
+  favorites Favorite[]
+  cart      CartItem[]
+}
+
+model PendingUser {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  username  String
+  password  String
+  code      String
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  brand       String
+  price       Float
+  discount    Float    @default(0)
+  final_price Float
+  category    String
+  stock       Int
+  rating      Float    @default(0)
+  num_reviews Int      @default(0)
+  image_url   String?
+  created_at  DateTime @default(now())
+  features    String[] // MongoDB'de array of strings desteklenir
+
+  // İlişkiler
+  favorites  Favorite[]
+  orderItems OrderItem[]
+  CartItem   CartItem[]
+}
+
+model Favorite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  user      User        @relation(fields: [userId], references: [id])
+  userId    String      @db.ObjectId
+  total     Float
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+  quantity  Int     @default(1)
+  price     Float // fiyat bilgisi sipariş anındaki ürün fiyatı için (değişikliklere karşı)
+}
+
+model CartItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now())
+}
