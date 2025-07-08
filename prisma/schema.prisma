@@ -50,6 +50,8 @@ model Product {
   favorites  Favorite[]
   orderItems OrderItem[]
   CartItem   CartItem[]
+
+  @@map("Product")
 }
 
 model Favorite {
