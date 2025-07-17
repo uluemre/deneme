@@ -147,6 +147,7 @@ const HomePage = () => {
                 Tüm Ürünler <span aria-hidden="true">&rarr;</span>
               </button>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {featuredProducts.map((product) => (
                 <div key={product.id} className="bg-white rounded-xl shadow-md overflow-hidden group">
@@ -207,7 +208,7 @@ const HomePage = () => {
                   Yaz İndirimleri Başladı!
                 </h2>
                 <p className="text-xl mb-8 max-w-xl">
-                  Tüm ürünlerde geçerli %30'a varan indirimlerle yazı karşılayın.
+                  Tüm ürünlerde geçerli %30&lsquo;a varan indirimlerle yazı karşılayın.
                   Kampanya sınırlı süreyle geçerlidir.
                 </p>
                 <div className="mb-8">
@@ -261,7 +262,7 @@ const HomePage = () => {
                     ))}
                   </div>
                   <p className="text-gray-600 mb-6 italic">
-                    "{testimonial.content}"
+                    &quot;{testimonial.content}&quot;
                   </p>
                   <div className="flex items-center">
                     <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16" />
